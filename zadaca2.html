@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="jquery (1)/jquery/jquery-ui.css">
+    <script src="jquery (1)/jquery/jquery.js"></script>
+    <script src="jquery (1)/jquery/jquery-ui.js"></script>
+<style>
+    input{display: block;
+    margin: 5px;
+    }
+    select{
+        display: block;
+        margin: 5px;
+    }
+    button{
+        display: block;
+    }
+    span{
+        font-size: smaller;
+        margin-left: 5px;
+        margin-top: -3px;
+    }
+    #tabela, tr,td{
+        border: black 1px solid;
+        border-collapse: collapse;
+    }
+    td{
+        padding: 10px;
+    }
+    #tabela{
+        margin-top: 10px;
+    }
+    .red{
+        background-color: red;
+    }
+    .green{
+        background-color: green;
+    }
+</style>
+    <script>
+        $(document).ready(function (){
+            var i=0
+            var a
+            $("#date").datepicker()
+            $("#dodadi").click(function (){
+                var pilot=$("#pilot").val()
+                var regBr=$("#regBr").val()
+                var tip=$("#tip").val()
+                var data= $("#date").val()
+                var tabela= $("#tabela")
+
+                tabela.append("<tr class='row"+i+" item'><td>"+pilot+"<td>"+regBr+"<td>"+tip+"<td>"+data+"<td><button class='conf'>Confirmed</button><button class='land'>Landed</button></td></td></td></td></td></tr>")
+                $("#pilot").val("")
+                $("#regBr").val("")
+                $("#date").val("")
+                if(i %2==0)
+                {
+                    $(".row"+i).addClass("red")
+                }else {
+                    $(".row"+i).addClass("green")
+                }
+                i++;
+                $(".conf , .land").hide()
+            })
+            $(document).on("mouseover",".item",function (){
+                $(this).find(".conf,.land").show()
+            })
+            $(document).on("mouseout",".item",function (){
+                $(this).find(".conf,.land").hide()
+            })
+            $(document).on("click",".conf",function (){
+                a=$(this).parent().parent()
+                $("#dialog").dialog("open")
+                $(this).attr("disabled",true)
+            })
+            $(document).on("click",".land",function (){
+                a=$(this).parent().parent()
+                a.remove()
+            })
+            $("#dialog").dialog({
+                autoOpen:false,
+                modal: true,
+                buttons:{
+                    "OK":function (){
+                        a.css("backgroundColor","green")
+                        $("#dialog").dialog("close")
+                    },
+                    "Cancel":function (){
+                        $("#dialog").dialog("close")
+                    }
+                }
+            })
+        })
+    </script>
+
+</head>
+<body>
+<input type="text" id="pilot"><span>Vnesete ime i prezime</span>
+<input type="text" id="regBr"><span>Vnesete registraciski broj na avionot</span>
+<select id="tip">
+    <option>Patnicki</option>
+    <option>Kargo</option>
+    <option>Privaten</option>
+</select><span>Vnesete tip na avionot</span>
+<input type="text" id="date"><span>Izberete datum</span>
+<button id="dodadi">Add</button><span>Dodadete</span>
+
+<table id="tabela">
+    <tr>
+        <td>Ime i prezime</td>
+        <td>Registraciski broj</td>
+        <td>Tip na avion</td>
+        <td>Datum</td>
+    </tr>
+</table>
+
+<div id="dialog">
+    <p>Napisi specifikacija za avionot</p>
+    <input type="text">
+</div>
+</body>
+</html>
